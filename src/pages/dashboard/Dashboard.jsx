@@ -35,7 +35,8 @@ const Dashboard = () => {
     // 🔐 Send to backend with Clerk auth
     try {
       const token = await getToken();
-      const res = await fetch('http://localhost:5000/api/passwords', {
+      const apiUrl = import.meta.env.VITE_API_URL || '';
+      const res = await fetch(`${apiUrl}/api/passwords`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

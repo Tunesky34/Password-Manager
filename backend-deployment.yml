@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: password-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: password-backend
+  template:
+    metadata:
+      labels:
+        app: password-backend
+    spec:
+      containers:
+      - name: backend
+        image: tunesky34/password-manager-backend:v10
+        ports:
+        - containerPort: 5000
+        env:
+        - name: PORT
+          valueFrom:
+            secretKeyRef:
+              name: backend-secrets
+              key: PORT
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: backend-secrets
+              key: DATABASE_URL
+        - name: CLERK_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: backend-secrets
+              key: CLERK_API_KEY
+        - name: ENCRYPTION_KEY
+          valueFrom:
+            secretKeyRef:
+              name: backend-secrets
+              key: ENCRYPTION_KEY
